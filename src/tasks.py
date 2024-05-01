@@ -1,15 +1,16 @@
 import http.client
 import json
+from config import *
 
 
 def add_device():
-    conn = http.client.HTTPSConnection("chirpstack-api.iotserv.ru")
+    conn = http.client.HTTPSConnection(HTTPS_CONNECTION_ADDR)
     payload = json.dumps({
       "device": {
-        "applicationId": "1bad2baa-585a-41cf-9478-d43e8f0ac96a",
+        "applicationId": APP_ID,
         "description": "SPV Test Device",
         "devEui": "fa41a5fffe666860",
-        "deviceProfileId": "29d26ba4-2bf0-452e-9341-2671f442c7da",
+        "deviceProfileId": DEVICE_PROFILE_ID,
         "isDisabled": False,
         "joinEui": "0000000000000000",
         "name": "SPV Test Device POASTMAN",
@@ -18,7 +19,7 @@ def add_device():
     })
     headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjaGlycHN0YWNrIiwiaXNzIjoiY2hpcnBzdGFjayIsInN1YiI6IjY0ODE3NTkzLTMyYzYtNDBlNC05YTc5LTE4Y2M0MWFhMWNjNSIsInR5cCI6ImtleSJ9.xM_bU22aFukUzVC1v07aZ2T5OaIHUDSdHYtTsTPz7JA'
+      'Authorization': AUTHORIZATION_TOKEN
     }
     conn.request("POST", "/api/devices", payload, headers)
     res = conn.getresponse()
@@ -27,11 +28,11 @@ def add_device():
 
 
 def delete_device():
-    conn = http.client.HTTPSConnection("chirpstack-api.iotserv.ru")
+    conn = http.client.HTTPSConnection(HTTPS_CONNECTION_ADDR)
     boundary = ''
     payload = ''
     headers = {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjaGlycHN0YWNrIiwiaXNzIjoiY2hpcnBzdGFjayIsInN1YiI6IjY0ODE3NTkzLTMyYzYtNDBlNC05YTc5LTE4Y2M0MWFhMWNjNSIsInR5cCI6ImtleSJ9.xM_bU22aFukUzVC1v07aZ2T5OaIHUDSdHYtTsTPz7JA',
+        'Authorization': AUTHORIZATION_TOKEN,
         'Content-type': 'multipart/form-data; boundary={}'.format(boundary)
     }
     conn.request("DELETE", "/api/devices/fa41a5fffe666860", payload, headers)
@@ -41,10 +42,10 @@ def delete_device():
 
 
 def get_device_list():
-    conn = http.client.HTTPSConnection("chirpstack-api.iotserv.ru")
+    conn = http.client.HTTPSConnection(HTTPS_CONNECTION_ADDR)
     payload = ''
     headers = {
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjaGlycHN0YWNrIiwiaXNzIjoiY2hpcnBzdGFjayIsInN1YiI6IjY0ODE3NTkzLTMyYzYtNDBlNC05YTc5LTE4Y2M0MWFhMWNjNSIsInR5cCI6ImtleSJ9.xM_bU22aFukUzVC1v07aZ2T5OaIHUDSdHYtTsTPz7JA'
+        'Authorization': AUTHORIZATION_TOKEN
     }
     conn.request("GET", "/api/devices?limit=5&applicationId=1bad2baa-585a-41cf-9478-d43e8f0ac96a", payload, headers)
     res = conn.getresponse()
@@ -53,16 +54,16 @@ def get_device_list():
 
 
 def update_device():
-    conn = http.client.HTTPSConnection("chirpstack-api.iotserv.ru")
+    conn = http.client.HTTPSConnection(HTTPS_CONNECTION_ADDR)
     payload = json.dumps({
         "device": {
-            "applicationId": "1bad2baa-585a-41cf-9478-d43e8f0ac96a",
-            "deviceProfileId": "29d26ba4-2bf0-452e-9341-2671f442c7da",
+            "applicationId": APP_ID,
+            "deviceProfileId": DEVICE_PROFILE_ID,
             "name": "SPV Test Device POSTMAN updated"
         }
     })
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjaGlycHN0YWNrIiwiaXNzIjoiY2hpcnBzdGFjayIsInN1YiI6IjY0ODE3NTkzLTMyYzYtNDBlNC05YTc5LTE4Y2M0MWFhMWNjNSIsInR5cCI6ImtleSJ9.xM_bU22aFukUzVC1v07aZ2T5OaIHUDSdHYtTsTPz7JA'
+        'Authorization': AUTHORIZATION_TOKEN
     }
     conn.request("PUT", "/api/devices/fa41a5fffe666860", payload, headers)
